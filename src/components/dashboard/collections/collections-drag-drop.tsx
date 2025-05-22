@@ -19,7 +19,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import Image from "next/image"
 
 
 type Product = {
@@ -32,7 +31,6 @@ type Product = {
   category: string
 }
 
-
 type Collection = {
   id: string
   name: string
@@ -44,7 +42,6 @@ type Collection = {
   image?: string
 }
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 const DraggableProduct = ({ product, index, moveProduct, collectionId }: any) => {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -58,7 +55,6 @@ const DraggableProduct = ({ product, index, moveProduct, collectionId }: any) =>
 
   const [, drop] = useDrop({
     accept: "PRODUCT",
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
     hover(item: any, monitor) {
       if (!ref.current) {
         return
@@ -67,26 +63,19 @@ const DraggableProduct = ({ product, index, moveProduct, collectionId }: any) =>
       const hoverIndex = index
       const sourceCollectionId = item.collectionId
       const targetCollectionId = collectionId
-
       if (dragIndex === hoverIndex && sourceCollectionId === targetCollectionId) {
         return
       }
       const hoverBoundingRect = ref.current?.getBoundingClientRect()
-
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-
       const clientOffset = monitor.getClientOffset()
-
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top
-
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
       }
-
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return
       }
-
       moveProduct(dragIndex, hoverIndex, sourceCollectionId, targetCollectionId)
       item.index = hoverIndex
       item.collectionId = targetCollectionId
@@ -106,7 +95,7 @@ const DraggableProduct = ({ product, index, moveProduct, collectionId }: any) =>
     >
       <div className="flex items-center gap-3">
         <div className="h-10 w-10 rounded-md bg-muted flex items-center justify-center overflow-hidden">
-          <Image fill src={product.image || "/placeholder.svg"} alt={product.name} className="h-full w-full object-cover" />
+          <img src={product.image || "/placeholder.svg"} alt={product.name} className="h-full w-full object-cover" />
         </div>
         <div>
           <p className="font-medium text-sm">{product.name}</p>
@@ -124,7 +113,8 @@ const DraggableProduct = ({ product, index, moveProduct, collectionId }: any) =>
     </div>
   )
 }
-/* eslint-disable  @typescript-eslint/no-explicit-any */
+
+
 const DroppableCollection = ({
   collection,
   moveProduct,
@@ -143,7 +133,6 @@ const DroppableCollection = ({
   const dropRef = useRef<HTMLDivElement>(null)
   const [, drop] = useDrop({
     accept: "PRODUCT",
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
     drop: (item: any) => {
       if (collection.products.length === 0) {
         moveProduct(item.index, 0, item.collectionId, collection.id)
@@ -159,7 +148,7 @@ const DroppableCollection = ({
     const now = new Date()
     const start = new Date(collection.startDate)
     const end = new Date(collection.endDate)
-    end.setHours(23, 59, 59, 999)
+    end.setHours(23, 59, 59, 999) // Definir para o final do dia
 
     return now >= start && now <= end
   }
@@ -351,7 +340,6 @@ const DroppableCollection = ({
   )
 }
 
-// Dados de exemplo
 const initialProducts: Product[] = [
   {
     id: "p1",
@@ -403,7 +391,6 @@ const initialProducts: Product[] = [
   },
 ]
 
-// Atualizar initialCollections para incluir datas
 const initialCollections: Collection[] = [
   {
     id: "c1",
@@ -441,14 +428,13 @@ export function CollectionsDragDrop() {
   const [newCollectionFeatured, setNewCollectionFeatured] = useState(false)
   const [newCollectionImage, setNewCollectionImage] = useState("")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [selectedProduct] = useState<Product | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [discountValue, setDiscountValue] = useState("0")
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
   const [exportData, setExportData] = useState("")
 
   const moveProduct = (fromIndex: number, toIndex: number, sourceCollectionId: string, targetCollectionId: string) => {
     setCollections((prevCollections) => {
-
       const newCollections = JSON.parse(JSON.stringify(prevCollections))
 
       const sourceCollectionIndex = newCollections.findIndex((c: Collection) => c.id === sourceCollectionId)
@@ -460,7 +446,6 @@ export function CollectionsDragDrop() {
       const targetCollection = newCollections[targetCollectionIndex]
 
       const [movedProduct] = sourceCollection.products.splice(fromIndex, 1)
-
       if (targetCollection.products.length === 0) {
         targetCollection.products = [movedProduct]
       } else {
@@ -521,7 +506,6 @@ export function CollectionsDragDrop() {
       ),
     )
   }
-
   const duplicateCollection = (id: string) => {
     const collectionToDuplicate = collections.find((c) => c.id === id)
     if (!collectionToDuplicate) return
@@ -539,7 +523,6 @@ export function CollectionsDragDrop() {
 
   const deleteCollection = (id: string) => {
     if (id === "c1") return
-
     const collectionToDelete = collections.find((c) => c.id === id)
     if (!collectionToDelete) return
 
@@ -555,12 +538,11 @@ export function CollectionsDragDrop() {
     })
   }
 
-  // Abrir diálogo para adicionar desconto
-  // const openDiscountDialog = (product: Product) => {
-  //   setSelectedProduct(product)
-  //   setDiscountValue(product.discount?.toString() || "0")
-  //   setIsDialogOpen(true)
-  // }
+  const openDiscountDialog = (product: Product) => {
+    setSelectedProduct(product)
+    setDiscountValue(product.discount?.toString() || "0")
+    setIsDialogOpen(true)
+  }
 
   const applyDiscount = () => {
     if (!selectedProduct) return
@@ -607,7 +589,6 @@ export function CollectionsDragDrop() {
       try {
         const importedCollections = JSON.parse(e.target?.result as string)
         if (Array.isArray(importedCollections)) {
-
           const newCollections = importedCollections.map((collection) => ({
             ...collection,
             id: `c${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -787,10 +768,10 @@ export function CollectionsDragDrop() {
             <div className="space-y-2">
               <h3 className="font-medium">1. Arraste e Solte</h3>
               <p className="text-sm text-muted-foreground">
-                Arraste produtos da lista &quot;Produtos Disponíveis&quot; para as coleções sazonais.
+                Arraste produtos da lista "Produtos Disponíveis" para as coleções sazonais.
               </p>
               <p className="text-sm text-muted-foreground font-medium text-primary">
-                Dica: Você pode arrastar diretamente para a área que mostra &quot;Arraste produtos para esta coleção&quot; ou para
+                Dica: Você pode arrastar diretamente para a área que mostra "Arraste produtos para esta coleção" ou para
                 qualquer parte da coleção.
               </p>
             </div>

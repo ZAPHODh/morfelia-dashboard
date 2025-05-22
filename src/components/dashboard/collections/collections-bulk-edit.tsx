@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Search, Check, X, Tag, Percent } from "lucide-react"
 
-
+// Tipos
 type Product = {
   id: string
   name: string
@@ -33,6 +33,7 @@ type Product = {
   endDate?: string
 }
 
+// Dados de exemplo
 const products: Product[] = [
   {
     id: "PRD001",
@@ -130,7 +131,7 @@ const products: Product[] = [
   },
 ]
 
-
+// Esquema de validação para edição em lote
 const bulkEditSchema = z.object({
   discount: z.string().optional(),
   collection: z.string().optional(),
@@ -139,11 +140,11 @@ const bulkEditSchema = z.object({
   endDate: z.string().optional(),
 })
 
-
+// Atualizar o tipo BulkEditValues
 type BulkEditValues = z.infer<typeof bulkEditSchema>
 
 export function CollectionsBulkEdit() {
-
+  // Formulário para edição em lote
   const form = useForm<BulkEditValues>({
     resolver: zodResolver(bulkEditSchema),
     defaultValues: {
@@ -160,7 +161,6 @@ export function CollectionsBulkEdit() {
   const [selectedCollection, setSelectedCollection] = useState<string>("all")
   const [selectAll, setSelectAll] = useState(false)
 
-
   const filteredProducts = productList.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -175,11 +175,12 @@ export function CollectionsBulkEdit() {
     return matchesSearch && matchesCategory && matchesCollection
   })
 
+
   const categories = Array.from(new Set(productList.map((p) => p.category)))
 
-
-  const collections = Array.from(new Set(productList.map((p) => p.collection).filter((c): c is string => typeof c === "string")))
-
+  const collections = Array.from(
+    new Set(productList.map((p) => p.collection).filter((c): c is string => typeof c === "string"))
+  )
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -292,7 +293,6 @@ export function CollectionsBulkEdit() {
             </div>
           </CardContent>
         </Card>
-
         <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle>Edição em Lote</CardTitle>
@@ -422,7 +422,6 @@ export function CollectionsBulkEdit() {
           </CardContent>
         </Card>
       </div>
-
       <Card>
         <CardHeader>
           <CardTitle>Lista de Produtos</CardTitle>

@@ -219,8 +219,7 @@ export function DashboardSidebar() {
       <nav className="hidden w-64 flex-col border-r bg-muted/40 lg:flex">
         <div className="flex h-14 items-center border-b px-6 py-4">
           <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
-            <GemIcon className="h-6 w-6 text-amber-500" />
-            <span>Bijoux Admin</span>
+            <span>Admin</span>
           </Link>
         </div>
         <div className="flex-1 overflow-auto py-2">

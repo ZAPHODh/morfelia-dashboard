@@ -11,7 +11,7 @@ import { HTML5Backend } from "react-dnd-html5-backend"
 
 export function CollectionsManager() {
   const [activeTab, setActiveTab] = useState("drag-drop")
-  console.log(activeTab)
+
   return (
     <div className="space-y-6">
       <Tabs defaultValue="drag-drop" onValueChange={setActiveTab}>

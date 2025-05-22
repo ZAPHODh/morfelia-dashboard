@@ -17,9 +17,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import Image from "next/image"
 
-
+// Tipos
 type Collection = {
   id: string
   name: string
@@ -32,7 +31,7 @@ type Collection = {
   status: "active" | "scheduled" | "expired"
 }
 
-
+// Dados de exemplo
 const mockCollections: Collection[] = [
   {
     id: "c1",
@@ -117,7 +116,7 @@ export function CollectionsGallery() {
   const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
-
+  // Filtrar coleções
   const filteredCollections = collections.filter((collection) => {
     const matchesStatus = filter.status === "all" || collection.status === filter.status
     const matchesFeatured =
@@ -130,14 +129,14 @@ export function CollectionsGallery() {
     return matchesStatus && matchesFeatured && matchesSearch
   })
 
-
+  // Formatar data
   const formatDate = (dateString?: string) => {
     if (!dateString) return ""
     const date = new Date(dateString)
     return date.toLocaleDateString("pt-BR")
   }
 
-
+  // Obter badge de status
   const getStatusBadge = (status: Collection["status"]) => {
     switch (status) {
       case "active":
@@ -153,19 +152,19 @@ export function CollectionsGallery() {
     }
   }
 
-
+  // Alternar destaque
   const toggleFeatured = (id: string) => {
     setCollections((prev) =>
       prev.map((collection) => (collection.id === id ? { ...collection, featured: !collection.featured } : collection)),
     )
   }
 
-
+  // Excluir coleção
   const deleteCollection = (id: string) => {
     setCollections((prev) => prev.filter((collection) => collection.id !== id))
   }
 
-
+  // Abrir preview
   const openPreview = (collection: Collection) => {
     setSelectedCollection(collection)
     setIsPreviewOpen(true)
@@ -236,8 +235,7 @@ export function CollectionsGallery() {
           {filteredCollections.map((collection) => (
             <Card key={collection.id} className="overflow-hidden">
               <div className="aspect-video w-full overflow-hidden">
-                <Image
-                  fill
+                <img
                   src={collection.image || "/placeholder.svg?height=200&width=400"}
                   alt={collection.name}
                   className="h-full w-full object-cover transition-transform hover:scale-105"
@@ -346,6 +344,7 @@ export function CollectionsGallery() {
         </div>
       )}
 
+      {/* Diálogo de Preview */}
       <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
@@ -355,8 +354,7 @@ export function CollectionsGallery() {
           {selectedCollection && (
             <div className="space-y-4">
               <div className="aspect-video w-full overflow-hidden rounded-lg">
-                <Image
-                  fill
+                <img
                   src={selectedCollection.image || "/placeholder.svg?height=400&width=800"}
                   alt={selectedCollection.name}
                   className="h-full w-full object-cover"
@@ -386,8 +384,7 @@ export function CollectionsGallery() {
                   {Array.from({ length: 8 }).map((_, i) => (
                     <div key={i} className="space-y-2">
                       <div className="aspect-square bg-muted rounded-md overflow-hidden">
-                        <Image
-                          fill
+                        <img
                           src={`/placeholder.svg?height=100&width=100&text=Produto ${i + 1}`}
                           alt={`Produto ${i + 1}`}
                           className="h-full w-full object-cover"

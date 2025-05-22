@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Bijoux Admin - Dashboard Administrativo",
+  title: "Metamorfosis - Dashboard Administrativo",
   description: "Dashboard administrativo para gestão de loja de bijuterias e joias",
 }
 

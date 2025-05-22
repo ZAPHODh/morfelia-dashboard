@@ -140,7 +140,6 @@ export function DashboardSidebar() {
           <nav className="flex h-full flex-col bg-muted/40">
             <div className="flex h-14 items-center border-b px-6 py-4">
               <Link href="/dashboard" className="flex items-center gap-2 font-semibold" onClick={() => setOpen(false)}>
-                <GemIcon className="h-6 w-6 text-amber-500" />
                 <span>Metamorfosis</span>
               </Link>
               <Button variant="ghost" size="icon" className="ml-auto" onClick={() => setOpen(false)}>
